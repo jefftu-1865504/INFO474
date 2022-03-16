@@ -1,5 +1,6 @@
 import { LegendThreshold } from "@visx/legend";
 import { scaleThreshold } from "@visx/scale";
+import { format } from "d3";
 
 const threshold = scaleThreshold({
   domain: [0.25, 0.5, 0.75, 1],
@@ -13,6 +14,7 @@ const Legends = () => {
       <div style={{ display: "flex" }}>
         <LegendThreshold
           scale={threshold}
+          labelFormat={(f, i) => { return parseInt(100*f) +"%"; }}
           direction="column-reverse"
           itemDirection="row-reverse"
           labelMargin="0 20px 0 0"

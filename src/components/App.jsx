@@ -9,8 +9,6 @@ import { forOwn, uniq } from "lodash";
 import * as d3 from "d3";
 import { forEach } from "lodash";
 
-import Legends from "./legendThreshold";
-
 import { interpolateGreys } from "d3";
 
 import urban_pollution_1990 from "../data/urban_pollution_1990";
@@ -22,10 +20,120 @@ import urban_agglom from "../data/urban_agglom_pct";
 import urban_total from "../data/urban_pop_total";
 import urban_largest_city from "../data/urban_pop_largest_city_pct";
 
-import MapsExample from "./mapsExampleBasemap";
+import * as topojson from "topojson-client";
+import worldTopo from "../data/world-topo";
+import { geoMercator, geoPath } from "d3-geo";
 
+import Legends from "./legendThreshold";
+
+import urban_pop_by_country from "../data/urban_pop_by_country";
+
+const _worldTopo = topojson.feature(worldTopo, worldTopo.objects.units);
+const countryShapes = _worldTopo.features;
+
+// for assignment 2
+const urban_pop_by_year = {}
+function get_urban_pop_for_year(year) {
+  if (year in urban_pop_by_year) {
+    return urban_pop_by_year[year];
+  }
+  const data_urban_pop = urban_pop_by_country.data.filter(x => x.Year == year);
+  const urban_pop_dict = {};
+  data_urban_pop.forEach(x => urban_pop_dict[x.country] = x.urban_pop_pct);
+  urban_pop_by_year[year] = urban_pop_dict;
+  return urban_pop_dict;
+}
+for (let i = 1990;  i <= 2017; i++) {
+  get_urban_pop_for_year(i);
+}
+
+const urban_pop_1990 = get_urban_pop_for_year(1990);
+const urban_pop_2017 = get_urban_pop_for_year(2017);
+
+function pct_to_rgb(pct) {  
+  return pct < 25 ? "rgb(255, 0, 0)" : pct < 50 ? "rgb(255,69,0)" : pct < 75 ? "rgb(255,255,0)" : "rgb(0, 255, 0)";
+}
 
 function App() {
+
+    const [selectedYear, setSelectedYear] = useState(1990);
+
+    //setTimeout(() => {setSelectedYear(1990 + (selectedYear + 1) % (2017 - 1990))}, 2000);
+
+    const Maps = ({ width = 960, height = 500 }) => {
+    const projection = geoMercator().center([0, 5]).scale(150).rotate([0, 0]);
+    const path = geoPath().projection(projection);
+  
+    return (
+      <div>
+        <h3>Urban Population Percentage in {selectedYear}</h3>
+        <div>
+        <label>Enter a year between 1990 and 2017 </label>
+        <input type="text" id="selectedYear" name="selectedYear" />
+        <button onClick={()=>{
+          let year = parseInt(document.getElementById("selectedYear").value);
+          if (year >= 1990 && year <= 2017) {
+            setSelectedYear(year);
+          }
+        }}>Set Year</button>
+        </div>
+        <br></br>
+    
+        <svg width={width} height={height}>
+          <g>
+            {countryShapes.map((shape, i) => {
+              return (
+                <path
+                  key={selectedYear*100 + i}
+                  onClick={() => {
+                    console.log(shape);
+                  }}
+                  d={path(shape)}
+                  //fill={pct_to_rgb(urban_pop_1990[shape.id])}
+                  fill={pct_to_rgb(get_urban_pop_for_year(selectedYear)[shape.id])}
+                  stroke="white"
+                  strokeWidth={0.3}
+                />
+              );
+            })}          
+          </g>
+        </svg>
+  
+        <Legends/>
+  
+        <p>This interactive visualization allows us to view the changes over time of the urban
+          population across the world. Above the visualization, we can enter the year (between 1990-2017)
+          that we wish to view, and as a result the visualization will render the world's urban population
+          demographic for that given year. Using this interactive visualization, we are able to view
+          the effects of urbanization, and see how the population changes from year to year. This visualization
+          allows us to pick a year, and clearly see the changes in the urban population both in specific countries
+          and across the world. Previously, I had two visualizations displaying the maps of the urban population percentage
+          in 1990 and 2017, but that limited us as it we could only see the change over 27 years, but didn't allow us to 
+          fully visualize the actual growth and change from year to year. I chose to do this
+          because it will not only help us views the changes in the urban population over time, but also 
+          help us build and better understand the effects of urbanization on the world as a whole.</p>
+
+          <p>Alternatively, I considered implementing a slider tool that would allow us to slide instead of input the years,
+          but I found that it would be difficult for a user to use the slider as it was hard to be precise for the year. Additionally,
+          the map would not render instantly, so it was not offering a smooth transition when I interacted with the slider tool, and 
+          would end up being choppy. I also considered implementing a tool that was a drop down, but ultimately decided that the 
+          drop down was too clunky with so many years, and would be better if the user could select specific years by themselves
+          by manually inputting the year, and then having the map render the corresponding data for that year.
+          </p>
+
+          <p>During the development process, I first wrote down a list of different interactive visualizations I could create, and ultimately
+          decided that building an interactive map with colored labels would be the most effective way to see the changes in urban development,
+          and how urbanization has impacted the world since 1970. I considered and experimented with different tools such as a slider, but ultimately
+          decided that allowing a user to input their desired year to view was the most effective and smoothest interactive tool.
+          I spent roughly 12 hours developing this interactive visualization. The aspect that took the longest
+          time was building out the interactivity, and ensuring that entering a new year would actually also
+          have the visualization render the corresponding data for that year. Initially, a lot of time was spent debugging
+          as I was able to properly test that the year and data were appropriate when entered in, but the map would not 
+          update or would render a map with every country being represented incorrectly.
+        </p>
+      </div>
+    );
+  };
 
   const xvalues = urban.data.map((row, i) => { return row.Year; })
   const yvalues_bar_chart = urban_total.data.map((row, i) => { return row.urban_pop_total / 1000000; })
@@ -35,8 +143,7 @@ function App() {
   const yvalues_largest_city = urban_largest_city.data.map((row, i) => { return row.urban_pop_largest_city_pct; });
   
   const lineChartData = [{name:"Urban Population %", data: yvalues}, {name:"Urban Agglomeration %", data: yvalues_agglom}, {name: "Urban Population Largest City %", data: yvalues_largest_city}];
-  
-  console.log(urban_pollution_1990)
+
 
   const minYear = d3.min(xvalues);
   const maxYear = d3.max(xvalues);
@@ -101,6 +208,17 @@ function App() {
       <p>INFO 474</p>
 
       <br></br>
+      
+      <h2>Assignment 3</h2>
+
+      <Maps/>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+
+      <h2>Assignment 2</h2>
 
       <div>  
       <h3>Development of the Urban Population from 1960-2019 (Average Urban Population)</h3>
@@ -143,7 +261,6 @@ function App() {
         growth in urban population.
       </p>
 
-      <MapsExample/>
 
       <h3>Urban Population Growth compared to Urban Agglomeration Growth and Urban Population in the Largest City from 1960-2019 </h3>
 
