@@ -2,8 +2,8 @@ import { LegendThreshold } from "@visx/legend";
 import { scaleThreshold } from "@visx/scale";
 
 const threshold = scaleThreshold({
-  domain: [0.02, 0.04, 0.06, 0.08, 0.1],
-  range: ["#f2f0f7", "#dadaeb", "#bcbddc", "#9e9ac8", "#756bb1", "#54278f"],
+  domain: [0.25, 0.5, 0.75, 1],
+  range: ["rgb(255, 0, 0)", "rgb(255, 69, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)"],
 });
 
 const Legends = () => {
