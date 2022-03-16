@@ -101,7 +101,7 @@ function App() {
       <p>INFO 474</p>
 
       <br></br>
-      
+
       <div>  
       <h3>Development of the Urban Population from 1960-2019 (Average Urban Population)</h3>
       <div>
@@ -313,7 +313,12 @@ function App() {
         over half of the worldwide population, and has a great effect on economic growth. Urbanization can solve problems 
         related to population congestion, deficiencies in infrastructure and housing conditions, as well as many other 
         problems. Growth in these areas make room for employment opportunities and improved infrastructure and living 
-        conditions for these people.</p>
+        conditions for these people. The biggest takeaway from this project was understanding the impact of urban development,
+        and how urbanization has affected the world from 1960-2019. We can clearly see that urbanization is a crucial element of 
+        growth across the world, and the ways in which it affects the overall population as well as the populations in different
+        countries and regions. I learned the importance of working with complete datasets, and how to wrangle data in a way that
+        helps us produce better, more impactful visualizations. I also learned how different visualizations can portray different
+        ideas and show overall patterns and different analyses across our data.</p>
     </div>
   );
 }
