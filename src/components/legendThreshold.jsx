@@ -3,8 +3,8 @@ import { scaleThreshold } from "@visx/scale";
 import { format } from "d3";
 
 const threshold = scaleThreshold({
-  domain: [0.25, 0.5, 0.75, 1],
-  range: ["rgb(255, 0, 0)", "rgb(255, 69, 0)", "rgb(255, 255, 0)", "rgb(0, 255, 0)"],
+  domain: [0.2, 0.4, 0.6, 0.8, 1],
+  range: ["rgb(255, 0, 0)", "rgb(255, 69, 0)", "rgb(0, 0, 255)", "rgb(255, 255, 0)", "rgb(0, 255, 0)"],
 });
 
 const Legends = () => {
