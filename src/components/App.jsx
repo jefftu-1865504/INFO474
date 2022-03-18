@@ -98,11 +98,11 @@ function App() {
 
         <div style={{ display: "flex", justifyContent: "center" }}>
           <p>
-            As of 2020, over 54% of the entire global population resided in urban
-            areas. In 1960, this number was just under 34%. The world's urban
-            population is growing at an incredible rate, which is a result of
-            rapid societal and economic growth. With urban growth also comes the
-            responsibility for us to plan for growth, and provide the proper
+            As of 2020, over 54% of the entire global population resided in
+            urban areas. In 1960, this number was just under 34%. The world's
+            urban population is growing at an incredible rate, which is a result
+            of rapid societal and economic growth. With urban growth also comes
+            the responsibility for us to plan for growth, and provide the proper
             infrastructures to not only continue this urban development, but
             also take steps to prepare for the future and protect the earth from
             global warming. Through these visualizations, I hope you can gain a
@@ -189,8 +189,7 @@ function App() {
         <br></br>
         <br></br>
         <div style={{ display: "flex", justifyContent: "center" }}>
-
-        <h4>Interactivity</h4>
+          <h4>Interactivity</h4>
         </div>
         <p>
           In order to navigate this visualization, we have implemented a few
@@ -200,15 +199,14 @@ function App() {
           and 2017 in the search bar, and the visualization will display the
           corresponding urban population percentages for that year across the
           world. When the year changes, the title will change accordingly as
-          well to show the year for the corresponding data that you are seeing on the map.
-          Lastly, you can also LEFT-CLICK on any country, and the year
-          will advance forward. Doing this will allow you to move quickly
+          well to show the year for the corresponding data that you are seeing
+          on the map. Lastly, you can also LEFT-CLICK on any country, and the
+          year will advance forward. Doing this will allow you to move quickly
           through the years, and view the changes from year to year.
         </p>
 
         <div style={{ display: "flex", justifyContent: "center" }}>
-
-        <h4>Analysis</h4>
+          <h4>Analysis</h4>
         </div>
         <p>
           This interactive visualization allows us to view the changes over time
@@ -391,6 +389,8 @@ function App() {
             {yvalues_bar_chart.map((y, i) => {
               return (
                 <rect
+                  data-tip={minYear + i + ": " + parseInt(y) + "%"}
+                  data-for="countryTip"
                   strokeWidth={1}
                   stroke="rgb(0,0,0)"
                   key={minYear + i}
@@ -432,7 +432,8 @@ function App() {
 
         <div style={{ display: "flex", justifyContent: "center" }}>
           <h3>
-            Average Population Density (people per square kilometer of land area)
+            Average Population Density (people per square kilometer of land
+            area)
           </h3>
         </div>
 
@@ -441,6 +442,8 @@ function App() {
             {yvalues_bar_chart2.map((y, i) => {
               return (
                 <rect
+                  data-tip={minYear + i + ": " + parseInt(y)}
+                  data-for="countryTip"
                   strokeWidth={1}
                   stroke="rgb(0,0,0)"
                   key={minYear + i}
@@ -470,19 +473,23 @@ function App() {
         </div>
 
         <p>
-          This bar graph shows the average population density by year for all of the countries
-          across the world since 1960. The average population density has been increasing almost
-          every year since 1960, which makes sense with the increased urban development and a steady 
-          growth in urban population since 1960 as well that we can see when referencing the previous 
-          visualization. This steady increase in average population density makes sense with the increasing
-          urban population, because as more urban infrastructure and housing is built, the number of people
-          who live in these communities will increase. Additionally, with population naturally increasing-both 
-          in total and urban population- it's expected that the average population density would increase over 
-          time as well, given that the amount of land in the world is the same, the people per sq km of land
-          area should naturally increase as well. This is important because it highlights the importance of 
-          urbanization, because building more housing and economic growth means more jobs and more places
-          for people to live in these urban areas, which is where the greatest area of population growth comes
-          from.
+          This bar graph shows the average population density by year for all of
+          the countries across the world since 1960. The average population
+          density has been increasing almost every year since 1960, which makes
+          sense with the increased urban development and a steady growth in
+          urban population since 1960 as well that we can see when referencing
+          the previous visualization. This steady increase in average population
+          density makes sense with the increasing urban population, because as
+          more urban infrastructure and housing is built, the number of people
+          who live in these communities will increase. Additionally, with
+          population naturally increasing-both in total and urban population-
+          it's expected that the average population density would increase over
+          time as well, given that the amount of land in the world is the same,
+          the people per sq km of land area should naturally increase as well.
+          This is important because it highlights the importance of
+          urbanization, because building more housing and economic growth means
+          more jobs and more places for people to live in these urban areas,
+          which is where the greatest area of population growth comes from.
         </p>
 
         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -490,9 +497,7 @@ function App() {
           <br></br>
           <br></br>
 
-          <h3>
-            Urban Population Growth from 1960-2020{" "}
-          </h3>
+          <h3>Urban Population Growth from 1960-2020 </h3>
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
           {lineNames.map((lineType, i) => {
@@ -705,18 +710,19 @@ function App() {
 
       <p>
         When I selected this dataset, I seeked away to understand and answer 3
-        main questions. The first question is: "What has urban development looked
-        like over the past 60 years?" When I first looked at the data, it became
-        apparent that one of the best ways to understand urban development was
-        looking at how the average urban population had changed over this period
-        of time. Through our visualizations, we can clearly observe that the
-        urban population has not only been increasing at a steady rate, but also
-        at a rate faster than the growth of the total population. Using our
-        visualizations for urban population percentage and total urban
-        population, we can understand that although the average urban population
-        has been increasing at a steady rate (from approximately 7 million to
-        over 25 million on average per country), which is a much faster rate of
-        increase than the total average worldwide population.{" "}
+        main questions. The first question is: "What has urban development
+        looked like over the past 60 years?" When I first looked at the data, it
+        became apparent that one of the best ways to understand urban
+        development was looking at how the average urban population had changed
+        over this period of time. Through our visualizations, we can clearly
+        observe that the urban population has not only been increasing at a
+        steady rate, but also at a rate faster than the growth of the total
+        population. Using our visualizations for urban population percentage and
+        total urban population, we can understand that although the average
+        urban population has been increasing at a steady rate (from
+        approximately 7 million to over 25 million on average per country),
+        which is a much faster rate of increase than the total average worldwide
+        population.{" "}
       </p>
       <br></br>
 
@@ -772,21 +778,22 @@ function App() {
         population as well as the populations in different countries and
         regions. I learned the importance of working with complete datasets, and
         how to wrangle data in a way that helps us produce better, more
-        impactful visualizations. I also learned how different interactive visualizations
-        can portray different ideas and show overall patterns and different
-        analyses across our data.
+        impactful visualizations. I also learned how different interactive
+        visualizations can portray different ideas and show overall patterns and
+        different analyses across our data.
       </p>
       <br></br>
       <br></br>
       <div style={{ display: "flex", justifyContent: "center" }}>
-      <h2>Thank You!</h2>
+        <h2>Thank You!</h2>
       </div>
       <br></br>
       <br></br>
 
-
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <a class="mailto" href="mailto:jefftu@uw.edu">Feel free to email me with any feedback or inquiries!</a>
+        <a class="mailto" href="mailto:jefftu@uw.edu">
+          Feel free to email me with any feedback or inquiries!
+        </a>
       </div>
     </div>
   );
